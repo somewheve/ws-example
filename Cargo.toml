@@ -1,0 +1,25 @@
+[package]
+name = "ws-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+base64 = "0.22"
+ed25519-dalek = { version = "2", features = ["pem"] }
+futures = { version = "0.3", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["fs", "rt-multi-thread"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+xitca-client = { version = "0.1", features = ["rustls", "json", "websocket"] }
+
+[target.'cfg(target_env = "msvc")'.dependencies]
+xitca-client = { version = "0.1", features = ["rustls-ring-crypto", "json", "websocket"] }
+
+[patch.crates-io]
+xitca-client = { git = "https://github.com/HFQR/xitca-web", rev = "5ee84f7e7cc577897933c2e6c3c0d0426957480a" }
+
